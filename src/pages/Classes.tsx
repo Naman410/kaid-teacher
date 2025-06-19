@@ -10,7 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { formatDistanceToNow } from 'date-fns';
 
 export default function Classes() {
-  const { data: classes, isLoading } = useTeacherClasses();
+  const { data: classes, isLoading, error } = useTeacherClasses();
 
   const getPackageColor = (packageType: string) => {
     switch (packageType) {
@@ -21,36 +21,29 @@ export default function Classes() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <DashboardLayout>
-        <div className="space-y-6">
-          <div>
-            <h1 className="text-3xl font-bold">Classes</h1>
-            <p className="text-muted-foreground">Manage your classes and monitor student activity</p>
-          </div>
-          
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {[...Array(6)].map((_, i) => (
-              <Skeleton key={i} className="h-64" />
-            ))}
-          </div>
-        </div>
-      </DashboardLayout>
-    );
-  }
-
   return (
     <DashboardLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Classes</h1>
-          <p className="text-muted-foreground">
-            Manage your classes and monitor student activity
-          </p>
+          <p className="text-muted-foreground">Manage your classes and monitor student activity</p>
         </div>
 
-        {classes?.length === 0 ? (
+        {error && (
+          <Card>
+            <CardContent className="text-center py-10">
+              <p className="text-destructive">Failed to load classes. Please try again.</p>
+            </CardContent>
+          </Card>
+        )}
+        
+        {isLoading ? (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {[...Array(6)].map((_, i) => (
+              <Skeleton key={i} className="h-64" />
+            ))}
+          </div>
+        ) : !classes || classes.length === 0 ? (
           <Card>
             <CardContent className="text-center py-10">
               <p className="text-muted-foreground">No classes found. Contact your administrator to get started.</p>
@@ -58,7 +51,7 @@ export default function Classes() {
           </Card>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {classes?.map((classItem) => (
+            {classes.map((classItem) => (
               <Card key={classItem.id} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <div className="flex justify-between items-start">
