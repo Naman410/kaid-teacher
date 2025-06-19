@@ -3,7 +3,7 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { useTeacherStudents } from '@/hooks/useTeacherData';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useFilteredStudents } from '@/hooks/useFilteredData';
-import { StudentsTable } from '@/components/students/StudentsTable';
+import { PaginatedStudentsTable } from '@/components/students/PaginatedStudentsTable';
 import { StudentFilters } from '@/components/students/StudentFilters';
 import { Card, CardContent } from '@/components/ui/card';
 import { useSearchParams } from 'react-router-dom';
@@ -69,7 +69,7 @@ export default function Students() {
             </CardContent>
           </Card>
         ) : (
-          <StudentsTable students={filteredStudents} />
+          <PaginatedStudentsTable students={filteredStudents} />
         )}
       </div>
     </DashboardLayout>

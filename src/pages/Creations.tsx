@@ -3,9 +3,11 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { useStudentCreations } from '@/hooks/useTeacherData';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useFilteredCreations } from '@/hooks/useFilteredData';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { CreationFilters } from '@/components/creations/CreationFilters';
 import { CreationCard } from '@/components/creations/CreationCard';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -22,6 +24,16 @@ export default function Creations() {
 
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const filteredCreations = useFilteredCreations(creations, debouncedSearchTerm, filterType, sortBy);
+
+  const {
+    displayedData,
+    loading: infiniteLoading,
+    hasMoreToShow,
+    loadMore,
+  } = useInfiniteScroll({
+    data: filteredCreations,
+    itemsPerPage: 12,
+  });
 
   if (isLoading) {
     return (
@@ -70,11 +82,26 @@ export default function Creations() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filteredCreations.map((creation) => (
-              <CreationCard key={creation.id} creation={creation} />
-            ))}
-          </div>
+          <>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {displayedData.map((creation) => (
+                <CreationCard key={creation.id} creation={creation} />
+              ))}
+            </div>
+            
+            {hasMoreToShow && (
+              <div className="text-center py-6">
+                <Button 
+                  onClick={loadMore} 
+                  disabled={infiniteLoading}
+                  variant="outline"
+                  size="lg"
+                >
+                  {infiniteLoading ? 'Loading...' : 'Load More'}
+                </Button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </DashboardLayout>
