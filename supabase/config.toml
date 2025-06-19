@@ -1,1 +1,5 @@
+
 project_id = "dkmdtuwtvuvekzjyopaj"
+
+[functions.teacher-dashboard]
+verify_jwt = false
