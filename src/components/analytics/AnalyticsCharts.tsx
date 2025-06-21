@@ -129,8 +129,9 @@ const UsageChart = memo(({ students }: { students: Student[] }) => {
   const usageData = useMemo(() =>
     students.map(student => ({
       name: student.username,
-      dailyUsage: (student.daily_usage / student.daily_limit) * 100,
-      monthlyUsage: (student.monthly_usage / student.monthly_limit) * 100,
+      // Check if the limit is greater than 0 before dividing
+      dailyUsage: student.daily_limit > 0 ? (student.daily_usage / student.daily_limit) * 100 : 0,
+      monthlyUsage: student.monthly_limit > 0 ? (student.monthly_usage / student.monthly_limit) * 100 : 0,
     })).slice(0, 10), // Top 10 students for performance
   [students]);
 
