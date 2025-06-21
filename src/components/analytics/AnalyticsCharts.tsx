@@ -126,12 +126,22 @@ const DailyTrendsChart = memo(({ creations }: { creations: StudentCreation[] }) 
 });
 
 const UsageChart = memo(({ students }: { students: Student[] }) => {
+  // This helper function safely calculates the percentage, handling all edge cases.
+  const calculatePercentage = (value?: number, limit?: number) => {
+    // Guards against null, undefined, or non-numeric inputs
+    if (typeof value !== 'number' || typeof limit !== 'number' || limit === 0) {
+      return 0;
+    }
+    const percentage = (value / limit) * 100;
+    // Guards against results like NaN (from 0/0) or Infinity (from X/0)
+    return isFinite(percentage) ? percentage : 0;
+  };
+
   const usageData = useMemo(() =>
     students.map(student => ({
       name: student.username,
-      // Check if the limit is greater than 0 before dividing
-      dailyUsage: student.daily_limit > 0 ? (student.daily_usage / student.daily_limit) * 100 : 0,
-      monthlyUsage: student.monthly_limit > 0 ? (student.monthly_usage / student.monthly_limit) * 100 : 0,
+      dailyUsage: calculatePercentage(student.daily_usage, student.daily_limit),
+      monthlyUsage: calculatePercentage(student.monthly_usage, student.monthly_limit),
     })).slice(0, 10), // Top 10 students for performance
   [students]);
 
