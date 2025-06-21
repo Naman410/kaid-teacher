@@ -753,6 +753,22 @@ export type Database = {
         Args: { p_user_id: string }
         Returns: Json
       }
+      get_current_user_org_id: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      get_current_user_profile: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          user_type: string
+          organization_id: string
+        }[]
+      }
+      get_current_user_type: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       get_organization_analytics: {
         Args: { p_user_id: string; p_target_org_id: string }
         Returns: Json
@@ -780,6 +796,14 @@ export type Database = {
       get_teacher_students: {
         Args: { p_teacher_user_id: string; p_class_id?: string }
         Returns: Json
+      }
+      is_student_in_class: {
+        Args: { p_class_id: string }
+        Returns: boolean
+      }
+      is_teacher_of_student: {
+        Args: { p_student_id: string }
+        Returns: boolean
       }
       log_audit_action: {
         Args: {
