@@ -55,6 +55,22 @@ const CreationTypesChart = memo(({ creations }: { creations: StudentCreation[] }
     }));
   }, [creations]);
 
+  // --- START OF FIX ---
+  // If there is no data to show, render a fallback message instead of the chart.
+  if (creationTypeData.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Creation Types Distribution</CardTitle>
+        </CardHeader>
+        <CardContent className="flex h-[300px] items-center justify-center">
+          <p className="text-muted-foreground">No creation data to display.</p>
+        </CardContent>
+      </Card>
+    );
+  }
+  // --- END OF FIX ---
+
   return (
     <Card>
       <CardHeader>
