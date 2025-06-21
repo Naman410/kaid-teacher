@@ -8,7 +8,6 @@ import {
   LayoutDashboard, 
   Users, 
   GraduationCap, 
-  BarChart3, 
   ImageIcon,
   LogOut,
   Menu
@@ -26,7 +25,6 @@ const navItems = [
   { icon: GraduationCap, label: 'Classes', href: '/classes' },
   { icon: Users, label: 'Students', href: '/students' },
   { icon: ImageIcon, label: 'Creations', href: '/creations' },
-  { icon: BarChart3, label: 'Analytics', href: '/analytics' },
 ];
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {

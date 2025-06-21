@@ -10,7 +10,6 @@ import Dashboard from "./pages/Dashboard";
 import Classes from "./pages/Classes";
 import Students from "./pages/Students";
 import Creations from "./pages/Creations";
-import Analytics from "./pages/Analytics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,7 +28,6 @@ const App = () => (
               <Route path="/classes" element={<Classes />} />
               <Route path="/students" element={<Students />} />
               <Route path="/creations" element={<Creations />} />
-              <Route path="/analytics" element={<Analytics />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthWrapper>
